@@ -28,31 +28,68 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* Button styles */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
+.gradient-border::after,
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: conic-gradient(
+    from var(--angle),
+    #ff4545,
+    #00ff99,
+    #006aff,
+    #ff0095,
+    #ff4545
+  );
+  border-radius: inherit;
+  z-index: -1;
+  animation: spin-border 3s linear infinite;
+}
+
+.gradient-border::before {
+  filter: blur(1.5rem);
+  opacity: 0.5;
+}
+
+@keyframes spin-border {
+  from { --angle: 0deg; }
+  to { --angle: 360deg; }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: 'translateY(-10px)' };
+  100% { opacity: 1; transform: 'translateY(0)' };
+}
+
+.reveal-text {
+  animation: fade-in 0.8s ease-out;
+}
+
+/* Color scheme mode styles */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #eceef3;
   }
-  button {
-    background-color: #f9f9f9;
+  .gradient-border::before {
+    filter: blur(2rem);
+    opacity: 1;
+  }
+  .gradient-border {
+    background-color: #2b2f3a;
+  }
+  .reveal-text {
+    color: #213547;
   }
 }
